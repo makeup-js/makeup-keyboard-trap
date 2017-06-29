@@ -1,0 +1,9 @@
+{
+  "extends": "ebay/legacy",
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "no-console": 0
+  }
+}

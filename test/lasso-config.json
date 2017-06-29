@@ -1,0 +1,18 @@
+{
+  "bundlingEnabled": true,
+  "outputDir": "test",
+  "bundles": [
+    {
+      "name": "lasso-client",
+      "dependencies": [
+        "require: lasso-modules-client"
+      ]
+    },
+    {
+      "name": "bundle-module",
+      "dependencies": [
+        "require: ../index.js"
+      ]
+    }
+  ]
+}
