@@ -591,7 +591,7 @@ https://github.com/joyent/node/blob/master/lib/module.js
     }
 })();
 
-$_mod.def("/makeup-keyboard-trap$0.0.1/util", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.0.2/util", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusableElementsList = ['a[href]', 'button:not([disabled])', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', '*[tabindex]', '*[contenteditable]'];
 
@@ -609,9 +609,9 @@ module.exports = {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.1/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.0.2/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
-var util = require('/makeup-keyboard-trap$0.0.1/util'/*'./util.js'*/);
+var util = require('/makeup-keyboard-trap$0.0.2/util'/*'./util.js'*/);
 
 var body = document.querySelector('body');
 
@@ -696,7 +696,7 @@ module.exports = {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.1/docs/index", function(require, exports, module, __filename, __dirname) { var keyboardTrap = require('/makeup-keyboard-trap$0.0.1/index'/*'../index.js'*/);
+$_mod.def("/makeup-keyboard-trap$0.0.2/docs/index", function(require, exports, module, __filename, __dirname) { var keyboardTrap = require('/makeup-keyboard-trap$0.0.2/index'/*'../index.js'*/);
 
 var trap = document.getElementById('trap');
 var btn = document.querySelector('button');
@@ -720,4 +720,4 @@ trap.addEventListener('keyboardTrap', function() {
 });
 
 });
-$_mod.run("/makeup-keyboard-trap$0.0.1/docs/index");
+$_mod.run("/makeup-keyboard-trap$0.0.2/docs/index");
