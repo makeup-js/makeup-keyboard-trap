@@ -1,85 +1,120 @@
+/* globals define, document, module */
 'use strict';
 
-const util = require('./util.js');
+((name, context, definition) => {
+    if (typeof define === 'function') {
+        define(definition);
+    } else if (typeof module !== 'undefined') {
+        module.exports = definition();
+    } else {
+        context[name] = definition(); // eslint-disable-line no-param-reassign
+    }
+})('keyboardTrap', this, () => {
+    if (typeof document === "undefined") return {};
 
-const body = typeof document === "undefined" ? {} : document.body;
+    const focusableElementsList = [
+        'a[href]',
+        'button:not([disabled])',
+        'area[href]',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+        'iframe',
+        'object',
+        'embed',
+        '*[tabindex]',
+        '*[contenteditable]'
+    ];
 
-// the element that will be trapped
-let trappedEl;
+    function createTrapBoundary() {
+        const div = document.createElement('div');
+        div.setAttribute('tabindex', '0');
+        div.className = 'keyboard-trap-boundary';
 
-let topTrap = util.createTrapBoundary();
-let outerTrapBefore = util.createTrapBoundary();
-let innerTrapBefore = util.createTrapBoundary();
-let innerTrapAfter = util.createTrapBoundary();
-let outerTrapAfter = util.createTrapBoundary();
-let botTrap = util.createTrapBoundary();
+        return div;
+    }
 
-let firstFocusableElement;
-let lastFocusableElement;
+    const body = typeof document === "undefined" ? {} : document.body;
 
-function setFocusToFirstFocusableElement() {
-    firstFocusableElement.focus();
-}
+    // the element that will be trapped
+    let trappedEl;
 
-function setFocusToLastFocusableElement() {
-    lastFocusableElement.focus();
-}
+    let topTrap = createTrapBoundary();
+    let outerTrapBefore = createTrapBoundary();
+    let innerTrapBefore = createTrapBoundary();
+    let innerTrapAfter = createTrapBoundary();
+    let outerTrapAfter = createTrapBoundary();
+    let botTrap = createTrapBoundary();
 
-topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
-innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
-innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
-botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+    let firstFocusableElement;
+    let lastFocusableElement;
 
-function untrap() {
-    if (trappedEl) {
-        topTrap = body.removeChild(topTrap);
-        outerTrapBefore = trappedEl.parentNode.removeChild(outerTrapBefore);
-        innerTrapBefore = trappedEl.removeChild(innerTrapBefore);
-        innerTrapAfter = trappedEl.removeChild(innerTrapAfter);
-        outerTrapAfter = trappedEl.parentNode.removeChild(outerTrapAfter);
-        botTrap = body.removeChild(botTrap);
+    function setFocusToFirstFocusableElement() {
+        firstFocusableElement.focus();
+    }
 
-        trappedEl.classList.remove('keyboard-trap--active');
+    function setFocusToLastFocusableElement() {
+        lastFocusableElement.focus();
+    }
+
+    topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
+    innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
+    innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
+    botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+
+    function untrap() {
+        if (trappedEl) {
+            topTrap = body.removeChild(topTrap);
+            outerTrapBefore = trappedEl.parentNode.removeChild(outerTrapBefore);
+            innerTrapBefore = trappedEl.removeChild(innerTrapBefore);
+            innerTrapAfter = trappedEl.removeChild(innerTrapAfter);
+            outerTrapAfter = trappedEl.parentNode.removeChild(outerTrapAfter);
+            botTrap = body.removeChild(botTrap);
+
+            trappedEl.classList.remove('keyboard-trap--active');
+
+            // let observers know the keyboard is now trapped
+            const event = document.createEvent('Event');
+            event.initEvent('keyboardUntrap', false, true);
+            trappedEl.dispatchEvent(event);
+
+            trappedEl = null;
+        }
+        return trappedEl;
+    }
+
+    function trap(el) {
+        untrap();
+
+        trappedEl = el;
+
+        const focusableElements = trappedEl.querySelectorAll(focusableElementsList);
+        firstFocusableElement = focusableElements[0];
+        lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+        body.insertBefore(topTrap, body.childNodes[0]);
+        trappedEl.parentNode.insertBefore(outerTrapBefore, trappedEl);
+        trappedEl.insertBefore(innerTrapBefore, trappedEl.childNodes[0]);
+        trappedEl.appendChild(innerTrapAfter);
+        trappedEl.parentNode.insertBefore(outerTrapAfter, trappedEl.nextElementSibling);
+        body.appendChild(botTrap);
 
         // let observers know the keyboard is now trapped
         const event = document.createEvent('Event');
-        event.initEvent('keyboardUntrap', false, true);
+        event.initEvent('keyboardTrap', false, true);
         trappedEl.dispatchEvent(event);
 
-        trappedEl = null;
+        trappedEl.classList.add('keyboard-trap--active');
+
+        return trappedEl;
     }
-    return trappedEl;
-}
 
-function trap(el) {
-    untrap();
-
-    trappedEl = el;
-
-    const focusableElements = trappedEl.querySelectorAll(util.focusableElementsList);
-    firstFocusableElement = focusableElements[0];
-    lastFocusableElement = focusableElements[focusableElements.length - 1];
-
-    body.insertBefore(topTrap, body.childNodes[0]);
-    trappedEl.parentNode.insertBefore(outerTrapBefore, trappedEl);
-    trappedEl.insertBefore(innerTrapBefore, trappedEl.childNodes[0]);
-    trappedEl.appendChild(innerTrapAfter);
-    trappedEl.parentNode.insertBefore(outerTrapAfter, trappedEl.nextElementSibling);
-    body.appendChild(botTrap);
-
-    // let observers know the keyboard is now trapped
-    const event = document.createEvent('Event');
-    event.initEvent('keyboardTrap', false, true);
-    trappedEl.dispatchEvent(event);
-
-    trappedEl.classList.add('keyboard-trap--active');
-
-    return trappedEl;
-}
-
-module.exports = {
-    trap,
-    untrap
-};
+    return {
+        trap,
+        untrap,
+        createTrapBoundary,
+        focusableElementsList
+    };
+});
