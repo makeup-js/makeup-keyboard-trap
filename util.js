@@ -8,7 +8,7 @@ var focusableElementsList = ['a[href]', 'button:not([disabled])', 'area[href]', 
 var NOOP = { addEventListener: function addEventListener() {} };
 var trapBoundary = void 0;
 
-var getTrapBoundary = function getTrapBoundary() {
+function createTrapBoundary() {
     if (trapBoundary) return trapBoundary.cloneNode();
     if (typeof document === "undefined") return NOOP;
 
@@ -17,10 +17,6 @@ var getTrapBoundary = function getTrapBoundary() {
     trapBoundary.className = 'keyboard-trap-boundary';
 
     return trapBoundary;
-};
-
-function createTrapBoundary() {
-    return getTrapBoundary();
 }
 
 module.exports = {
