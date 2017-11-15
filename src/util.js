@@ -20,7 +20,7 @@ const focusableElementsList = [
 const NOOP = { addEventListener: () => {} };
 let trapBoundary;
 
-const getTrapBoundary = () => {
+function createTrapBoundary() {
     if (trapBoundary) return trapBoundary.cloneNode();
     if (typeof document === "undefined") return NOOP;
 
@@ -29,10 +29,6 @@ const getTrapBoundary = () => {
     trapBoundary.className = 'keyboard-trap-boundary';
 
     return trapBoundary;
-};
-
-function createTrapBoundary() {
-    return getTrapBoundary();
 }
 
 module.exports = {
