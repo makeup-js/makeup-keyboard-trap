@@ -2,7 +2,7 @@
 
 const util = require('./util.js');
 
-const body = typeof document === "undefined" ? {} : document.body;
+const body = typeof document === "undefined" ? null : document.body;
 
 // the element that will be trapped
 let trappedEl;

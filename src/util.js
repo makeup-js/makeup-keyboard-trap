@@ -14,12 +14,17 @@ const focusableElementsList = [
     '*[contenteditable]'
 ];
 
-function createTrapBoundary() {
-    const div = document.createElement('div');
-    div.setAttribute('tabindex', '0');
-    div.className = 'keyboard-trap-boundary';
+let trapBoundary;
+if (typeof document !== "undefined") {
+    trapBoundary = document.createElement('div');
+    trapBoundary.setAttribute('tabindex', '0');
+    trapBoundary.className = 'keyboard-trap-boundary';
+}
 
-    return div;
+const noop = { addEventListener: () => {} };
+
+function createTrapBoundary() {
+    return trapBoundary ? trapBoundary.cloneNode() : noop;
 }
 
 module.exports = {
