@@ -2,7 +2,7 @@
 
 var util = require('./util.js');
 
-var body = document.querySelector('body');
+var body = typeof document === "undefined" ? null : document.body;
 
 // the element that will be trapped
 var trappedEl = void 0;

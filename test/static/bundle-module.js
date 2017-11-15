@@ -2,12 +2,17 @@ $_mod.def("/makeup-keyboard-trap$0.0.2/util", function(require, exports, module,
 
 var focusableElementsList = ['a[href]', 'button:not([disabled])', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', '*[tabindex]', '*[contenteditable]'];
 
-function createTrapBoundary() {
-    var div = document.createElement('div');
-    div.setAttribute('tabindex', '0');
-    div.className = 'keyboard-trap-boundary';
+var trapBoundary = void 0;
+if (typeof document !== "undefined") {
+    trapBoundary = document.createElement('div');
+    trapBoundary.setAttribute('tabindex', '0');
+    trapBoundary.className = 'keyboard-trap-boundary';
+}
 
-    return div;
+var noop = { addEventListener: function addEventListener() {} };
+
+function createTrapBoundary() {
+    return trapBoundary ? trapBoundary.cloneNode() : noop;
 }
 
 module.exports = {
@@ -20,7 +25,7 @@ $_mod.def("/makeup-keyboard-trap$0.0.2/index", function(require, exports, module
 
 var util = require('/makeup-keyboard-trap$0.0.2/util'/*'./util.js'*/);
 
-var body = document.querySelector('body');
+var body = typeof document === "undefined" ? null : document.body;
 
 // the element that will be trapped
 var trappedEl = void 0;
