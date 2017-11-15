@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run build && parallelshell \"npm run server\" \"npm run watch\"",
-    "test": "npm run transpile && npm run lasso:test && npm run clean && karma start --autoWatch false --singleRun true && mocha ./test/server-test.js",
+    "test": "npm run transpile && npm run lasso:test && npm run clean && karma start --autoWatch false --singleRun true",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
     "build": "npm run transpile && npm run lasso",
     "fix": "eslint src/index.js test/index.js --fix",
@@ -44,7 +44,6 @@
     "karma-jasmine": "^1",
     "karma-phantomjs-launcher": "^1",
     "lasso-cli": "^2",
-    "mocha": "^4.0.1",
     "onchange": "^3",
     "parallelshell": "^3",
     "pre-commit": "^1",
