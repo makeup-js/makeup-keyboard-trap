@@ -44,6 +44,7 @@
     "karma-jasmine": "^1",
     "karma-phantomjs-launcher": "^1",
     "lasso-cli": "^2",
+    "makeup-focusables": "^0.0.1",
     "onchange": "^3",
     "parallelshell": "^3",
     "pre-commit": "^1",

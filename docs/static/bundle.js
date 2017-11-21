@@ -591,13 +591,35 @@ https://github.com/joyent/node/blob/master/lib/module.js
     }
 })();
 
-$_mod.def("/makeup-keyboard-trap$0.0.3/util", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.installed("makeup-keyboard-trap$0.0.3", "makeup-focusables", "0.0.1");
+$_mod.main("/makeup-focusables$0.0.1", "");
+$_mod.def("/makeup-focusables$0.0.1/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
-var focusableElementsList = ['a[href]', 'button:not([disabled])', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', '*[tabindex]', '*[contenteditable]'];
+var focusableElList = ['a[href]', 'area[href]', 'button:not([disabled])', 'embed', 'iframe', 'input:not([disabled])', 'object', 'select:not([disabled])', 'textarea:not([disabled])', '*[tabindex]', '*[contenteditable]'];
+
+var focusableElSelector = focusableElList.join();
+
+module.exports = function (el) {
+    var keyboardOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    var focusableEls = Array.prototype.slice.call(el.querySelectorAll(focusableElSelector));
+
+    if (keyboardOnly === true) {
+        focusableEls = focusableEls.filter(function (focusableEl) {
+            return focusableEl.getAttribute('tabindex') !== '-1';
+        });
+    }
+
+    return focusableEls;
+};
+
+});
+$_mod.def("/makeup-keyboard-trap$0.0.3/util", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 // when bundled up with isomorphic components on the server, this code is run, so we must check if
 // 'document' is defined. When it is not, on the server, we return a no-op there. Since addEventListener
 // is loaded and called in index.js on the server, we include that method as a no-op as well.
+
 var NOOP = { addEventListener: function addEventListener() {} };
 var trapBoundary = void 0;
 
@@ -613,13 +635,13 @@ function createTrapBoundary() {
 }
 
 module.exports = {
-    createTrapBoundary: createTrapBoundary,
-    focusableElementsList: focusableElementsList
+    createTrapBoundary: createTrapBoundary
 };
 
 });
 $_mod.def("/makeup-keyboard-trap$0.0.3/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
+var focusables = require('/makeup-focusables$0.0.1/index'/*'makeup-focusables'*/);
 var util = require('/makeup-keyboard-trap$0.0.3/util'/*'./util.js'*/);
 
 var body = typeof document === "undefined" ? null : document.body;
@@ -678,7 +700,7 @@ function trap(el) {
 
     trappedEl = el;
 
-    var focusableElements = trappedEl.querySelectorAll(util.focusableElementsList);
+    var focusableElements = focusables(trappedEl);
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
 

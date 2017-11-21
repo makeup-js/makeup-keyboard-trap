@@ -2882,6 +2882,10 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
+makeup-focusables@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/makeup-focusables/-/makeup-focusables-0.0.1.tgz#bf3a3cbd15425d83f7d615eff651eccca0092f66"
+
 map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"

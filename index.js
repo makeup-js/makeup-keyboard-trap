@@ -1,5 +1,6 @@
 'use strict';
 
+var focusables = require('makeup-focusables');
 var util = require('./util.js');
 
 var body = typeof document === "undefined" ? null : document.body;
@@ -58,7 +59,7 @@ function trap(el) {
 
     trappedEl = el;
 
-    var focusableElements = trappedEl.querySelectorAll(util.focusableElementsList);
+    var focusableElements = focusables(trappedEl);
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
 
