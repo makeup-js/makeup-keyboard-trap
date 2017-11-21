@@ -56,12 +56,13 @@ var body = typeof document === "undefined" ? null : document.body;
 // the element that will be trapped
 var trappedEl = void 0;
 
-var topTrap = util.createTrapBoundary();
-var outerTrapBefore = util.createTrapBoundary();
-var innerTrapBefore = util.createTrapBoundary();
-var innerTrapAfter = util.createTrapBoundary();
-var outerTrapAfter = util.createTrapBoundary();
-var botTrap = util.createTrapBoundary();
+// the trap boundaries/bumpers
+var topTrap = void 0;
+var outerTrapBefore = void 0;
+var innerTrapBefore = void 0;
+var innerTrapAfter = void 0;
+var outerTrapAfter = void 0;
+var botTrap = void 0;
 
 var firstFocusableElement = void 0;
 var lastFocusableElement = void 0;
@@ -74,12 +75,21 @@ function setFocusToLastFocusableElement() {
     lastFocusableElement.focus();
 }
 
-topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
-innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
-innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
-botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+function createTraps() {
+    topTrap = util.createTrapBoundary();
+    outerTrapBefore = util.createTrapBoundary();
+    innerTrapBefore = util.createTrapBoundary();
+    innerTrapAfter = util.createTrapBoundary();
+    outerTrapAfter = util.createTrapBoundary();
+    botTrap = util.createTrapBoundary();
+
+    topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
+    innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
+    innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
+    botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+}
 
 function untrap() {
     if (trappedEl) {
@@ -103,7 +113,11 @@ function untrap() {
 }
 
 function trap(el) {
-    untrap();
+    if (!topTrap) {
+        createTraps();
+    } else {
+        untrap();
+    }
 
     trappedEl = el;
 
