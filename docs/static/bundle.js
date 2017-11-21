@@ -591,7 +591,7 @@ https://github.com/joyent/node/blob/master/lib/module.js
     }
 })();
 
-$_mod.installed("makeup-keyboard-trap$0.0.3", "makeup-focusables", "0.0.1");
+$_mod.installed("makeup-keyboard-trap$0.0.4", "makeup-focusables", "0.0.1");
 $_mod.main("/makeup-focusables$0.0.1", "");
 $_mod.def("/makeup-focusables$0.0.1/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
@@ -614,7 +614,7 @@ module.exports = function (el) {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.3/util", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.0.4/util", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 // when bundled up with isomorphic components on the server, this code is run, so we must check if
 // 'document' is defined. When it is not, on the server, we return a no-op there. Since addEventListener
@@ -639,10 +639,10 @@ module.exports = {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.3/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.0.4/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.1/index'/*'makeup-focusables'*/);
-var util = require('/makeup-keyboard-trap$0.0.3/util'/*'./util.js'*/);
+var util = require('/makeup-keyboard-trap$0.0.4/util'/*'./util.js'*/);
 
 var body = typeof document === "undefined" ? null : document.body;
 
@@ -727,7 +727,7 @@ module.exports = {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.3/docs/index", function(require, exports, module, __filename, __dirname) { var keyboardTrap = require('/makeup-keyboard-trap$0.0.3/index'/*'../index.js'*/);
+$_mod.def("/makeup-keyboard-trap$0.0.4/docs/index", function(require, exports, module, __filename, __dirname) { var keyboardTrap = require('/makeup-keyboard-trap$0.0.4/index'/*'../index.js'*/);
 
 var trap = document.getElementById('trap');
 var btn = document.querySelector('button');
@@ -751,4 +751,4 @@ trap.addEventListener('keyboardTrap', function() {
 });
 
 });
-$_mod.run("/makeup-keyboard-trap$0.0.3/docs/index");
+$_mod.run("/makeup-keyboard-trap$0.0.4/docs/index");
