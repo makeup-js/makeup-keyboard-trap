@@ -1,5 +1,4 @@
 var keyboardTrap = require('../index.js');
-var util = require('../util.js');
 var testData = require('./data.js');
 var trapEl;
 var trapNotified;

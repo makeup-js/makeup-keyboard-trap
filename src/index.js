@@ -1,16 +1,15 @@
 'use strict';
 
 const focusables = require('makeup-focusables');
-const util = require('./util.js');
 
 // when bundled up with isomorphic components on the server, this code is run,
 // so we must check if 'document' is defined.
 const body = typeof document === "undefined" ? null : document.body;
 
-// the element that will be trapped
+// for the element that will be trapped
 let trappedEl;
 
-// the trap boundaries/bumpers
+// for the trap boundary/bumper elements
 let topTrap;
 let outerTrapBefore;
 let innerTrapBefore;
@@ -18,8 +17,18 @@ let innerTrapAfter;
 let outerTrapAfter;
 let botTrap;
 
+// for the first and last focusable element inside the trap
 let firstFocusableElement;
 let lastFocusableElement;
+
+function createTrapBoundary() {
+    const trapBoundary = document.createElement('div');
+
+    trapBoundary.setAttribute('tabindex', '0');
+    trapBoundary.className = 'keyboard-trap-boundary';
+
+    return trapBoundary;
+}
 
 function setFocusToFirstFocusableElement() {
     firstFocusableElement.focus();
@@ -30,12 +39,12 @@ function setFocusToLastFocusableElement() {
 }
 
 function createTraps() {
-    topTrap = util.createTrapBoundary();
-    outerTrapBefore = util.createTrapBoundary();
-    innerTrapBefore = util.createTrapBoundary();
-    innerTrapAfter = util.createTrapBoundary();
-    outerTrapAfter = util.createTrapBoundary();
-    botTrap = util.createTrapBoundary();
+    topTrap = createTrapBoundary();
+    outerTrapBefore = topTrap.cloneNode();
+    innerTrapBefore = topTrap.cloneNode();
+    innerTrapAfter = topTrap.cloneNode();
+    outerTrapAfter = topTrap.cloneNode();
+    botTrap = topTrap.cloneNode();
 
     topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
     outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
@@ -56,7 +65,7 @@ function untrap() {
 
         trappedEl.classList.remove('keyboard-trap--active');
 
-        // let observers know the keyboard is now trapped
+        // let observers know the keyboard is no longer trapped
         const event = document.createEvent('Event');
         event.initEvent('keyboardUntrap', false, true);
         trappedEl.dispatchEvent(event);

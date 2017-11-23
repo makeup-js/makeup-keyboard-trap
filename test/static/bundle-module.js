@@ -21,38 +21,18 @@ module.exports = function (el) {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.4/util", function(require, exports, module, __filename, __dirname) { 'use strict';
-
-var trapBoundary = void 0;
-
-function createTrapBoundary() {
-    if (trapBoundary) return trapBoundary.cloneNode();
-
-    trapBoundary = document.createElement('div');
-    trapBoundary.setAttribute('tabindex', '0');
-    trapBoundary.className = 'keyboard-trap-boundary';
-
-    return trapBoundary;
-}
-
-module.exports = {
-    createTrapBoundary: createTrapBoundary
-};
-
-});
 $_mod.def("/makeup-keyboard-trap$0.0.4/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.1/index'/*'makeup-focusables'*/);
-var util = require('/makeup-keyboard-trap$0.0.4/util'/*'./util.js'*/);
 
 // when bundled up with isomorphic components on the server, this code is run,
 // so we must check if 'document' is defined.
 var body = typeof document === "undefined" ? null : document.body;
 
-// the element that will be trapped
+// for the element that will be trapped
 var trappedEl = void 0;
 
-// the trap boundaries/bumpers
+// for the trap boundary/bumper elements
 var topTrap = void 0;
 var outerTrapBefore = void 0;
 var innerTrapBefore = void 0;
@@ -60,8 +40,18 @@ var innerTrapAfter = void 0;
 var outerTrapAfter = void 0;
 var botTrap = void 0;
 
+// for the first and last focusable element inside the trap
 var firstFocusableElement = void 0;
 var lastFocusableElement = void 0;
+
+function createTrapBoundary() {
+    var trapBoundary = document.createElement('div');
+
+    trapBoundary.setAttribute('tabindex', '0');
+    trapBoundary.className = 'keyboard-trap-boundary';
+
+    return trapBoundary;
+}
 
 function setFocusToFirstFocusableElement() {
     firstFocusableElement.focus();
@@ -72,12 +62,12 @@ function setFocusToLastFocusableElement() {
 }
 
 function createTraps() {
-    topTrap = util.createTrapBoundary();
-    outerTrapBefore = util.createTrapBoundary();
-    innerTrapBefore = util.createTrapBoundary();
-    innerTrapAfter = util.createTrapBoundary();
-    outerTrapAfter = util.createTrapBoundary();
-    botTrap = util.createTrapBoundary();
+    topTrap = createTrapBoundary();
+    outerTrapBefore = topTrap.cloneNode();
+    innerTrapBefore = topTrap.cloneNode();
+    innerTrapAfter = topTrap.cloneNode();
+    outerTrapAfter = topTrap.cloneNode();
+    botTrap = topTrap.cloneNode();
 
     topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
     outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
@@ -98,7 +88,7 @@ function untrap() {
 
         trappedEl.classList.remove('keyboard-trap--active');
 
-        // let observers know the keyboard is now trapped
+        // let observers know the keyboard is no longer trapped
         var event = document.createEvent('Event');
         event.initEvent('keyboardUntrap', false, true);
         trappedEl.dispatchEvent(event);
