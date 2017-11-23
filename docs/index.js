@@ -11,12 +11,22 @@ btn.addEventListener('click', function() {
     }
 });
 
-trap.addEventListener('keyboardUntrap', function() {
+document.addEventListener('keyboardTrap', function(e) {
+    console.log(this, e);
+});
+
+document.addEventListener('keyboardUntrap', function(e) {
+    console.log(this, e);
+});
+
+trap.addEventListener('keyboardUntrap', function(e) {
+    console.log(this, e);
     btn.innerText = 'Trap';
     btn.setAttribute('aria-pressed', 'false');
 });
 
-trap.addEventListener('keyboardTrap', function() {
+trap.addEventListener('keyboardTrap', function(e) {
+    console.log(this, e);
     btn.innerText = 'Untrap';
     btn.setAttribute('aria-pressed', 'true');
 });

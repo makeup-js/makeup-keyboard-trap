@@ -66,9 +66,7 @@ function untrap() {
         trappedEl.classList.remove('keyboard-trap--active');
 
         // let observers know the keyboard is no longer trapped
-        var event = document.createEvent('Event');
-        event.initEvent('keyboardUntrap', false, true);
-        trappedEl.dispatchEvent(event);
+        trappedEl.dispatchEvent(new CustomEvent('keyboardUntrap', { bubbles: true }));
 
         trappedEl = null;
     }
@@ -96,9 +94,7 @@ function trap(el) {
     body.appendChild(botTrap);
 
     // let observers know the keyboard is now trapped
-    var event = document.createEvent('Event');
-    event.initEvent('keyboardTrap', false, true);
-    trappedEl.dispatchEvent(event);
+    trappedEl.dispatchEvent(new CustomEvent('keyboardTrap', { bubbles: true }));
 
     trappedEl.classList.add('keyboard-trap--active');
 
