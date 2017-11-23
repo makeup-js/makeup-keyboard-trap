@@ -3,6 +3,8 @@
 const focusables = require('makeup-focusables');
 const util = require('./util.js');
 
+// when bundled up with isomorphic components on the server, this code is run,
+// so we must check if 'document' is defined.
 const body = typeof document === "undefined" ? null : document.body;
 
 // the element that will be trapped
