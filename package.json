@@ -44,13 +44,13 @@
     "karma-jasmine": "^1",
     "karma-phantomjs-launcher": "^1",
     "lasso-cli": "^2",
-    "makeup-focusables": "~0.0",
     "onchange": "^3",
     "parallelshell": "^3",
     "pre-commit": "^1",
     "rimraf": "^2"
   },
   "dependencies": {
-    "custom-event-polyfill": "~0.3"
+    "custom-event-polyfill": "~0.3",
+    "makeup-focusables": "~0.0"
   }
 }
