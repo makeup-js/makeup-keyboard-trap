@@ -3,17 +3,20 @@
 const focusables = require('makeup-focusables');
 const util = require('./util.js');
 
+// when bundled up with isomorphic components on the server, this code is run,
+// so we must check if 'document' is defined.
 const body = typeof document === "undefined" ? null : document.body;
 
 // the element that will be trapped
 let trappedEl;
 
-let topTrap = util.createTrapBoundary();
-let outerTrapBefore = util.createTrapBoundary();
-let innerTrapBefore = util.createTrapBoundary();
-let innerTrapAfter = util.createTrapBoundary();
-let outerTrapAfter = util.createTrapBoundary();
-let botTrap = util.createTrapBoundary();
+// the trap boundaries/bumpers
+let topTrap;
+let outerTrapBefore;
+let innerTrapBefore;
+let innerTrapAfter;
+let outerTrapAfter;
+let botTrap;
 
 let firstFocusableElement;
 let lastFocusableElement;
@@ -26,12 +29,21 @@ function setFocusToLastFocusableElement() {
     lastFocusableElement.focus();
 }
 
-topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
-innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
-innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
-botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+function createTraps() {
+    topTrap = util.createTrapBoundary();
+    outerTrapBefore = util.createTrapBoundary();
+    innerTrapBefore = util.createTrapBoundary();
+    innerTrapAfter = util.createTrapBoundary();
+    outerTrapAfter = util.createTrapBoundary();
+    botTrap = util.createTrapBoundary();
+
+    topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
+    innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
+    innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
+    botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+}
 
 function untrap() {
     if (trappedEl) {
@@ -55,7 +67,11 @@ function untrap() {
 }
 
 function trap(el) {
-    untrap();
+    if (!topTrap) {
+        createTraps();
+    } else {
+        untrap();
+    }
 
     trappedEl = el;
 

@@ -23,16 +23,10 @@ module.exports = function (el) {
 });
 $_mod.def("/makeup-keyboard-trap$0.0.4/util", function(require, exports, module, __filename, __dirname) { 'use strict';
 
-// when bundled up with isomorphic components on the server, this code is run, so we must check if
-// 'document' is defined. When it is not, on the server, we return a no-op there. Since addEventListener
-// is loaded and called in index.js on the server, we include that method as a no-op as well.
-
-var NOOP = { addEventListener: function addEventListener() {} };
 var trapBoundary = void 0;
 
 function createTrapBoundary() {
     if (trapBoundary) return trapBoundary.cloneNode();
-    if (typeof document === "undefined") return NOOP;
 
     trapBoundary = document.createElement('div');
     trapBoundary.setAttribute('tabindex', '0');
@@ -51,17 +45,20 @@ $_mod.def("/makeup-keyboard-trap$0.0.4/index", function(require, exports, module
 var focusables = require('/makeup-focusables$0.0.1/index'/*'makeup-focusables'*/);
 var util = require('/makeup-keyboard-trap$0.0.4/util'/*'./util.js'*/);
 
+// when bundled up with isomorphic components on the server, this code is run,
+// so we must check if 'document' is defined.
 var body = typeof document === "undefined" ? null : document.body;
 
 // the element that will be trapped
 var trappedEl = void 0;
 
-var topTrap = util.createTrapBoundary();
-var outerTrapBefore = util.createTrapBoundary();
-var innerTrapBefore = util.createTrapBoundary();
-var innerTrapAfter = util.createTrapBoundary();
-var outerTrapAfter = util.createTrapBoundary();
-var botTrap = util.createTrapBoundary();
+// the trap boundaries/bumpers
+var topTrap = void 0;
+var outerTrapBefore = void 0;
+var innerTrapBefore = void 0;
+var innerTrapAfter = void 0;
+var outerTrapAfter = void 0;
+var botTrap = void 0;
 
 var firstFocusableElement = void 0;
 var lastFocusableElement = void 0;
@@ -74,12 +71,21 @@ function setFocusToLastFocusableElement() {
     lastFocusableElement.focus();
 }
 
-topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
-innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
-innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
-botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+function createTraps() {
+    topTrap = util.createTrapBoundary();
+    outerTrapBefore = util.createTrapBoundary();
+    innerTrapBefore = util.createTrapBoundary();
+    innerTrapAfter = util.createTrapBoundary();
+    outerTrapAfter = util.createTrapBoundary();
+    botTrap = util.createTrapBoundary();
+
+    topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
+    innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
+    innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
+    botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+}
 
 function untrap() {
     if (trappedEl) {
@@ -103,7 +109,11 @@ function untrap() {
 }
 
 function trap(el) {
-    untrap();
+    if (!topTrap) {
+        createTraps();
+    } else {
+        untrap();
+    }
 
     trappedEl = el;
 
