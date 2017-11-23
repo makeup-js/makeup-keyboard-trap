@@ -1,4 +1,4 @@
-$_mod.installed("makeup-keyboard-trap$0.0.4", "makeup-focusables", "0.0.1");
+$_mod.installed("makeup-keyboard-trap$0.0.5", "makeup-focusables", "0.0.1");
 $_mod.main("/makeup-focusables$0.0.1", "");
 $_mod.def("/makeup-focusables$0.0.1/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
@@ -21,7 +21,7 @@ module.exports = function (el) {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.4/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.0.5/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.1/index'/*'makeup-focusables'*/);
 
