@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run build && parallelshell \"npm run server\" \"npm run watch\"",
     "test": "npm run transpile && npm run lasso:test && npm run clean && karma start --autoWatch false --singleRun true",
-    "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build",
+    "prepublishOnly": "npm run clean && npm run lint && npm run build && npm run test",
     "build": "npm run transpile && npm run lasso",
     "fix": "eslint src/index.js test/index.js --fix",
     "lint": "eslint src/index.js > lint.txt",

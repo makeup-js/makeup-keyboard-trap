@@ -1,60 +1,59 @@
 var keyboardTrap = require('../index.js');
 var testData = require('./data.js');
 var trapEl;
-var trapNotified;
-var untrapNotified;
+var onTrap;
+var onUntrap;
 
 function doBeforeAll(html) {
     document.querySelector('body').innerHTML = html;
     trapEl = document.querySelector('.dialog');
-    trapNotified = [];
-    untrapNotified = [];
+    onTrap = jasmine.createSpy('onTrap');
+    onUntrap = jasmine.createSpy('onUntrap');
 
-    trapEl.addEventListener('keyboardTrap', function() {
-        trapNotified.push(true);
-    });
-
-    trapEl.addEventListener('keyboardUntrap', function() {
-        untrapNotified.push(true);
-    });
+    trapEl.addEventListener('keyboardTrap', onTrap);
+    trapEl.addEventListener('keyboardUntrap', onUntrap);
 }
 
 testData.forEach(function(data) {
-    describe('makeup-keyboard-trap', function() {
+    describe('given trap is not active,', function() {
         doBeforeAll(data.html);
-        describe('when trap is activated', function() {
+        describe('when trap method is called', function() {
             beforeAll(function() {
                 keyboardTrap.trap(trapEl);
             });
-            it("should have class keyboard-trap--active on trap", function() {
+            it("it should have class keyboard-trap--active on trap", function() {
                 expect(trapEl.classList.contains('keyboard-trap--active')).toEqual(true);
             });
-            it("should have six trap boundaries in body", function() {
+            it("it should have six trap boundaries in body", function() {
                 expect(document.querySelectorAll('.keyboard-trap-boundary').length).toEqual(6);
             });
-            it('should observe one trap event', function() {
-                expect(trapNotified.length).toEqual(1);
+            it('it should observe one trap event', function() {
+                expect(onTrap).toHaveBeenCalledTimes(1);
             });
-            it('should observe zero untrap events', function() {
-                expect(untrapNotified.length).toEqual(0);
+            it('it should observe zero untrap events', function() {
+                expect(onUntrap).toHaveBeenCalledTimes(0);
             });
         });
-
-        describe('when trap is deactivated', function() {
+    });
+    describe('given trap is active,', function() {
+        doBeforeAll(data.html);
+        describe('when untrap method is called', function() {
             beforeAll(function() {
+                onTrap.calls.reset();
+                onUntrap.calls.reset();
                 keyboardTrap.untrap();
             });
-            it("should have zero trap boundaries in body", function() {
+            it("it should have zero trap boundaries in body", function() {
                 expect(document.querySelectorAll('.keyboard-trap-boundary').length).toEqual(0);
             });
-            it("should not have class keyboard-trap--active on trap", function() {
+            it("it should not have class keyboard-trap--active on trap", function() {
                 expect(trapEl.classList.contains('keyboard-trap--active')).toEqual(false);
             });
-            it('should observe no more trap event', function() {
-                expect(trapNotified.length).toEqual(1);
+            it('it should observe zero trap events', function() {
+                expect(onTrap).toHaveBeenCalledTimes(0);
             });
-            it('should observe one untrap event', function() {
-                expect(untrapNotified.length).toEqual(1);
+            it('it should observe 1 untrap event', function() {
+                expect(onUntrap).toHaveBeenCalledTimes(1);
             });
         });
     });
