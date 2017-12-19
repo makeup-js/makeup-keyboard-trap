@@ -4,7 +4,7 @@ var focusables = require('makeup-focusables');
 
 // when bundled up with isomorphic components on the server, this code is run,
 // so we must check if 'document' is defined.
-var body = typeof document === "undefined" ? null : document.body;
+var body = typeof document === 'undefined' ? null : document.body;
 
 // for the element that will be trapped
 var trappedEl = void 0;
