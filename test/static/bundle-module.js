@@ -1,4 +1,4 @@
-$_mod.installed("makeup-keyboard-trap$0.0.8", "custom-event-polyfill", "0.3.0");
+$_mod.installed("makeup-keyboard-trap$0.0.9", "custom-event-polyfill", "0.3.0");
 $_mod.main("/custom-event-polyfill$0.3.0", "custom-event-polyfill");
 $_mod.def("/custom-event-polyfill$0.3.0/custom-event-polyfill", function(require, exports, module, __filename, __dirname) { // Polyfill for creating CustomEvents on IE9/10/11
 
@@ -46,7 +46,7 @@ try {
 }
 
 });
-$_mod.installed("makeup-keyboard-trap$0.0.8", "makeup-focusables", "0.0.2");
+$_mod.installed("makeup-keyboard-trap$0.0.9", "makeup-focusables", "0.0.2");
 $_mod.main("/makeup-focusables$0.0.2", "");
 $_mod.def("/makeup-focusables$0.0.2/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
@@ -74,7 +74,7 @@ module.exports = function (el) {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.8/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.0.9/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.2/index'/*'makeup-focusables'*/);
 
