@@ -1,7 +1,7 @@
 {
   "name": "makeup-keyboard-trap",
   "description": "Restricts keyboard tabindex to a single subtree in the DOM",
-  "version": "0.0.2",
+  "version": "0.0.9",
   "main": "index.js",
   "repository": "https://github.com/makeup-js/makeup-keyboard-trap.git",
   "author": "Ian McBurnie <ianmcburnie@hotmail.com>",
@@ -9,20 +9,20 @@
   "scripts": {
     "start": "npm run build && parallelshell \"npm run server\" \"npm run watch\"",
     "test": "npm run transpile && npm run lasso:test && npm run clean && karma start --autoWatch false --singleRun true",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
+    "prepublishOnly": "npm run clean && npm run lint && npm run build && npm run test",
     "build": "npm run transpile && npm run lasso",
-    "fix": "eslint src/index.js src/util.js test/index.js --fix",
-    "lint": "eslint src/index.js src/util.js > lint.txt",
+    "fix": "eslint src/index.js test/index.js --fix",
+    "lint": "eslint src/index.js > lint.txt",
     "lasso": "lasso require-run:./docs/index.js --out docs/static --inject-into docs/index.html --name bundle && npm run clean:lasso",
     "lasso:test": "lasso require-run:./test/index.js --name bundle-test --out test/static --config ./test/lasso-config.json && npm run clean:lasso",
     "clean": "rimraf reports .DS_Store test/.DS_Store src/.DS_Store docs/.DS_Store && npm run clean:lasso",
     "clean:lasso": "rimraf .cache build",
     "server": "browser-sync start -s --ss docs --index docs/index.html --files docs/index.html",
-    "watch": "onchange src/*.js -- npm run build",
-    "transpile": "babel src/index.js --out-file index.js && babel src/util.js --out-file util.js"
+    "watch": "onchange src/*.js docs/index.js -- npm run build",
+    "transpile": "babel src/index.js --out-file index.js"
   },
   "pre-commit": [
-    "prepublish"
+    "prepublishOnly"
   ],
   "keywords": [
     "makeup",
@@ -48,5 +48,14 @@
     "parallelshell": "^3",
     "pre-commit": "^1",
     "rimraf": "^2"
-  }
+  },
+  "dependencies": {
+    "custom-event-polyfill": "~0.3",
+    "makeup-focusables": "~0.0"
+  },
+  "files": [
+    "browser.json",
+    "index.js",
+    "yarn.lock"
+  ]
 }

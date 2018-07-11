@@ -1,21 +1,34 @@
 'use strict';
 
-const util = require('./util.js');
+const focusables = require('makeup-focusables');
 
-const body = typeof document === "undefined" ? null : document.body;
+// when bundled up with isomorphic components on the server, this code is run,
+// so we must check if 'document' is defined.
+const body = typeof document === 'undefined' ? null : document.body;
 
-// the element that will be trapped
+// for the element that will be trapped
 let trappedEl;
 
-let topTrap = util.createTrapBoundary();
-let outerTrapBefore = util.createTrapBoundary();
-let innerTrapBefore = util.createTrapBoundary();
-let innerTrapAfter = util.createTrapBoundary();
-let outerTrapAfter = util.createTrapBoundary();
-let botTrap = util.createTrapBoundary();
+// for the trap boundary/bumper elements
+let topTrap;
+let outerTrapBefore;
+let innerTrapBefore;
+let innerTrapAfter;
+let outerTrapAfter;
+let botTrap;
 
+// for the first and last focusable element inside the trap
 let firstFocusableElement;
 let lastFocusableElement;
+
+function createTrapBoundary() {
+    const trapBoundary = document.createElement('div');
+
+    trapBoundary.setAttribute('tabindex', '0');
+    trapBoundary.className = 'keyboard-trap-boundary';
+
+    return trapBoundary;
+}
 
 function setFocusToFirstFocusableElement() {
     firstFocusableElement.focus();
@@ -25,12 +38,21 @@ function setFocusToLastFocusableElement() {
     lastFocusableElement.focus();
 }
 
-topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
-innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
-innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
-outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
-botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+function createTraps() {
+    topTrap = createTrapBoundary();
+    outerTrapBefore = topTrap.cloneNode();
+    innerTrapBefore = topTrap.cloneNode();
+    innerTrapAfter = topTrap.cloneNode();
+    outerTrapAfter = topTrap.cloneNode();
+    botTrap = topTrap.cloneNode();
+
+    topTrap.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapBefore.addEventListener('focus', setFocusToFirstFocusableElement);
+    innerTrapBefore.addEventListener('focus', setFocusToLastFocusableElement);
+    innerTrapAfter.addEventListener('focus', setFocusToFirstFocusableElement);
+    outerTrapAfter.addEventListener('focus', setFocusToLastFocusableElement);
+    botTrap.addEventListener('focus', setFocusToLastFocusableElement);
+}
 
 function untrap() {
     if (trappedEl) {
@@ -43,10 +65,8 @@ function untrap() {
 
         trappedEl.classList.remove('keyboard-trap--active');
 
-        // let observers know the keyboard is now trapped
-        const event = document.createEvent('Event');
-        event.initEvent('keyboardUntrap', false, true);
-        trappedEl.dispatchEvent(event);
+        // let observers know the keyboard is no longer trapped
+        trappedEl.dispatchEvent(new CustomEvent('keyboardUntrap', { bubbles: true }));
 
         trappedEl = null;
     }
@@ -54,11 +74,15 @@ function untrap() {
 }
 
 function trap(el) {
-    untrap();
+    if (!topTrap) {
+        createTraps();
+    } else {
+        untrap();
+    }
 
     trappedEl = el;
 
-    const focusableElements = trappedEl.querySelectorAll(util.focusableElementsList);
+    const focusableElements = focusables(trappedEl);
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
 
@@ -70,16 +94,26 @@ function trap(el) {
     body.appendChild(botTrap);
 
     // let observers know the keyboard is now trapped
-    const event = document.createEvent('Event');
-    event.initEvent('keyboardTrap', false, true);
-    trappedEl.dispatchEvent(event);
+    trappedEl.dispatchEvent(new CustomEvent('keyboardTrap', { bubbles: true }));
 
     trappedEl.classList.add('keyboard-trap--active');
 
     return trappedEl;
 }
 
+function refresh() {
+    if (topTrap && trappedEl) {
+        let focusableElements = focusables(trappedEl);
+        focusableElements = focusableElements.filter(function(el) {
+            return !el.classList.contains('keyboard-trap-boundary');
+        });
+        firstFocusableElement = focusableElements[0];
+        lastFocusableElement = focusableElements[focusableElements.length - 1];
+    }
+}
+
 module.exports = {
+    refresh,
     trap,
     untrap
 };
