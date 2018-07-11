@@ -82,7 +82,7 @@ function trap(el) {
 
     trappedEl = el;
 
-    var focusableElements = focusables(trappedEl);
+    var focusableElements = focusables(trappedEl, true);
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
 
@@ -103,7 +103,7 @@ function trap(el) {
 
 function refresh() {
     if (topTrap && trappedEl) {
-        var focusableElements = focusables(trappedEl);
+        var focusableElements = focusables(trappedEl, true);
         focusableElements = focusableElements.filter(function (el) {
             return !el.classList.contains('keyboard-trap-boundary');
         });
