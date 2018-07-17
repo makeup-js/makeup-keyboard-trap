@@ -11,6 +11,8 @@ A vanilla JavaScript port of <a href="https://github.com/ianmcburnie/jquery-keyb
 
 This module restricts keyboard tabindex to a single subtree in the DOM. This behaviour is useful when implementing a modal interface (e.g. a modal dialog).
 
+It will ignore focusable items with a tabindex of `-1`.
+
 ## Experimental
 
 This module is still in an experimental state, until it reaches v1.0.0 you must consider all minor releases as breaking changes. Patch releases may introduce new features, but will be backwards compatible.
