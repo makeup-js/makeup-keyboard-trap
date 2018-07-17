@@ -591,7 +591,7 @@ https://github.com/joyent/node/blob/master/lib/module.js
     }
 })();
 
-$_mod.installed("makeup-keyboard-trap$0.0.9", "custom-event-polyfill", "0.3.0");
+$_mod.installed("makeup-keyboard-trap$0.1.0", "custom-event-polyfill", "0.3.0");
 $_mod.main("/custom-event-polyfill$0.3.0", "custom-event-polyfill");
 $_mod.def("/custom-event-polyfill$0.3.0/custom-event-polyfill", function(require, exports, module, __filename, __dirname) { // Polyfill for creating CustomEvents on IE9/10/11
 
@@ -640,7 +640,7 @@ try {
 
 });
 $_mod.run("/custom-event-polyfill$0.3.0/custom-event-polyfill");
-$_mod.installed("makeup-keyboard-trap$0.0.9", "makeup-focusables", "0.0.3");
+$_mod.installed("makeup-keyboard-trap$0.1.0", "makeup-focusables", "0.0.3");
 $_mod.main("/makeup-focusables$0.0.3", "");
 $_mod.def("/makeup-focusables$0.0.3/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
@@ -668,7 +668,7 @@ module.exports = function (el) {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.9/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.1.0/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.3/index'/*'makeup-focusables'*/);
 
@@ -789,7 +789,7 @@ module.exports = {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.0.9/docs/index", function(require, exports, module, __filename, __dirname) { var keyboardTrap = require('/makeup-keyboard-trap$0.0.9/index'/*'../index.js'*/);
+$_mod.def("/makeup-keyboard-trap$0.1.0/docs/index", function(require, exports, module, __filename, __dirname) { var keyboardTrap = require('/makeup-keyboard-trap$0.1.0/index'/*'../index.js'*/);
 
 var trap = document.getElementById('trap');
 var btn = document.querySelector('button');
@@ -823,4 +823,4 @@ trap.addEventListener('keyboardTrap', function(e) {
 });
 
 });
-$_mod.run("/makeup-keyboard-trap$0.0.9/docs/index");
+$_mod.run("/makeup-keyboard-trap$0.1.0/docs/index");
