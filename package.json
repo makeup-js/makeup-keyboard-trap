@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "custom-event-polyfill": "~0.3",
-    "makeup-focusables": "~0.0"
+    "makeup-focusables": "~0.0.3"
   },
   "files": [
     "browser.json",
