@@ -21,10 +21,10 @@ testData.forEach(function(data) {
             beforeAll(function() {
                 keyboardTrap.trap(trapEl);
             });
-            it("it should have class keyboard-trap--active on trap", function() {
+            it('it should have class keyboard-trap--active on trap', function() {
                 expect(trapEl.classList.contains('keyboard-trap--active')).toEqual(true);
             });
-            it("it should have six trap boundaries in body", function() {
+            it('it should have six trap boundaries in body', function() {
                 expect(document.querySelectorAll('.keyboard-trap-boundary').length).toEqual(6);
             });
             it('it should observe one trap event', function() {
@@ -43,10 +43,10 @@ testData.forEach(function(data) {
                 onUntrap.calls.reset();
                 keyboardTrap.untrap();
             });
-            it("it should have zero trap boundaries in body", function() {
+            it('it should have zero trap boundaries in body', function() {
                 expect(document.querySelectorAll('.keyboard-trap-boundary').length).toEqual(0);
             });
-            it("it should not have class keyboard-trap--active on trap", function() {
+            it('it should not have class keyboard-trap--active on trap', function() {
                 expect(trapEl.classList.contains('keyboard-trap--active')).toEqual(false);
             });
             it('it should observe zero trap events', function() {
@@ -54,6 +54,19 @@ testData.forEach(function(data) {
             });
             it('it should observe 1 untrap event', function() {
                 expect(onUntrap).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
+
+    describe('given trap is active, but someone messed up the DOM', function() {
+        doBeforeAll(data.html);
+        describe('when untrap method is called', function() {
+            beforeAll(function() {
+                keyboardTrap.trap(trapEl);
+                document.querySelector('.keyboard-trap-boundary').remove();
+            });
+            it('it should not blow up in our face', function() {
+                expect(keyboardTrap.untrap.bind()).not.toThrow();
             });
         });
     });

@@ -132,12 +132,12 @@ function createTraps() {
 
 function untrap() {
     if (trappedEl) {
-        topTrap = body.removeChild(topTrap);
-        outerTrapBefore = trappedEl.parentNode.removeChild(outerTrapBefore);
-        innerTrapBefore = trappedEl.removeChild(innerTrapBefore);
-        innerTrapAfter = trappedEl.removeChild(innerTrapAfter);
-        outerTrapAfter = trappedEl.parentNode.removeChild(outerTrapAfter);
-        botTrap = body.removeChild(botTrap);
+        topTrap = safeDetach(topTrap);
+        outerTrapBefore = safeDetach(outerTrapBefore);
+        innerTrapBefore = safeDetach(innerTrapBefore);
+        innerTrapAfter = safeDetach(innerTrapAfter);
+        outerTrapAfter = safeDetach(outerTrapAfter);
+        botTrap = safeDetach(botTrap);
 
         trappedEl.classList.remove('keyboard-trap--active');
 
@@ -147,6 +147,12 @@ function untrap() {
         trappedEl = null;
     }
     return trappedEl;
+}
+
+function safeDetach(el) {
+    var parent = el.parentNode;
+
+    return parent ? parent.removeChild(el) : el;
 }
 
 function trap(el) {
