@@ -58,14 +58,14 @@ testData.forEach(function(data) {
         });
     });
 
-    describe('given trap is active, but someone messed up the DOM', function() {
+    describe('given trap is active, but the DOM has changed', function() {
         doBeforeAll(data.html);
         describe('when untrap method is called', function() {
             beforeAll(function() {
                 keyboardTrap.trap(trapEl);
                 document.querySelector('.keyboard-trap-boundary').remove();
             });
-            it('it should not blow up in our face', function() {
+            it('it should not throw an error', function() {
                 expect(keyboardTrap.untrap.bind()).not.toThrow();
             });
         });
