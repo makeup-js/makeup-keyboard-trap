@@ -1,26 +1,28 @@
 var keyboardTrap = require('../index.js');
 var testData = require('./data.js');
-var trapEl;
-var onTrap;
-var onUntrap;
 
-function doBeforeAll(html) {
-    document.querySelector('body').innerHTML = html;
-    trapEl = document.querySelector('.dialog');
-    onTrap = jasmine.createSpy('onTrap');
-    onUntrap = jasmine.createSpy('onUntrap');
+testData.forEach(function(data) {
+    document.querySelector('body').innerHTML = data.html;
+
+    var trapEl = document.querySelector('.dialog');
+    var onTrap = jasmine.createSpy('onTrap');
+    var onUntrap = jasmine.createSpy('onUntrap');
 
     trapEl.addEventListener('keyboardTrap', onTrap);
     trapEl.addEventListener('keyboardUntrap', onUntrap);
-}
 
-testData.forEach(function(data) {
     describe('given trap is not active,', function() {
-        doBeforeAll(data.html);
         describe('when trap method is called', function() {
             beforeAll(function() {
                 keyboardTrap.trap(trapEl);
             });
+
+            afterAll(function() {
+                keyboardTrap.untrap();
+                onTrap.calls.reset();
+                onUntrap.calls.reset();
+            });
+
             it('it should have class keyboard-trap--active on trap', function() {
                 expect(trapEl.classList.contains('keyboard-trap--active')).toEqual(true);
             });
@@ -35,14 +37,24 @@ testData.forEach(function(data) {
             });
         });
     });
+
     describe('given trap is active,', function() {
-        doBeforeAll(data.html);
+        beforeAll(function() {
+            keyboardTrap.trap(trapEl);
+            onTrap.calls.reset();
+            onUntrap.calls.reset();
+        });
+
         describe('when untrap method is called', function() {
             beforeAll(function() {
-                onTrap.calls.reset();
-                onUntrap.calls.reset();
                 keyboardTrap.untrap();
             });
+
+            afterAll(function() {
+                onTrap.calls.reset();
+                onUntrap.calls.reset();
+            });
+
             it('it should have zero trap boundaries in body', function() {
                 expect(document.querySelectorAll('.keyboard-trap-boundary').length).toEqual(0);
             });
@@ -58,14 +70,24 @@ testData.forEach(function(data) {
         });
     });
 
-    describe('given trap is active, but the DOM has changed', function() {
-        doBeforeAll(data.html);
-        describe('when untrap method is called', function() {
+    describe('given trap is active', function() {
+        beforeAll(function() {
+            keyboardTrap.trap(trapEl);
+            onTrap.calls.reset();
+            onUntrap.calls.reset();
+        });
+
+        describe('when DOM is changed', function() {
             beforeAll(function() {
-                keyboardTrap.trap(trapEl);
                 document.querySelector('.keyboard-trap-boundary').remove();
             });
-            it('it should not throw an error', function() {
+
+            afterAll(function() {
+                onTrap.calls.reset();
+                onUntrap.calls.reset();
+            });
+
+            it('it should not throw an error when untrap is called', function() {
                 expect(keyboardTrap.untrap.bind()).not.toThrow();
             });
         });
