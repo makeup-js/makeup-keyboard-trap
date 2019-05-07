@@ -9,6 +9,18 @@
       ]
     },
     {
+      "name": "custom-event-polyfill",
+      "dependencies": [
+        "require: custom-event-polyfill"
+      ]
+    },
+    {
+      "name": "makeup-focusables",
+      "dependencies": [
+        "require: makeup-focusables"
+      ]
+    },
+    {
       "name": "bundle-module",
       "dependencies": [
         "require: ../index.js"

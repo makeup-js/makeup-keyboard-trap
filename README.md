@@ -44,7 +44,7 @@ yarn add makeup-keyboard-trap
 
 ## Dependencies
 
-* None
+* [makeup-focusables](https://github.com/makeup-js/makeup-focusables)
 
 ## Polyfills
 

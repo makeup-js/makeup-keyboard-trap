@@ -5,6 +5,6 @@
       "jasmine": true
   },
   "rules": {
-    "no-unused-vars": 0
+    "no-var": 0
   }
 }

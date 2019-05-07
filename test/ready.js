@@ -1,1 +1,1 @@
-$_mod.ready();
+$_mod.ready(); // eslint-disable-line no-undef

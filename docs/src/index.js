@@ -1,7 +1,9 @@
-var keyboardTrap = require('../index.js');
+/* eslint-disable no-console */
 
-var trap = document.getElementById('trap');
-var btn = document.querySelector('button');
+const keyboardTrap = require('../index.js');
+
+const trap = document.getElementById('trap');
+const btn = document.querySelector('button');
 
 btn.addEventListener('click', function() {
     if (this.getAttribute('aria-pressed') === 'true') {

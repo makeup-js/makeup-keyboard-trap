@@ -9,11 +9,16 @@ node_modules
 # Lint output
 lint.txt
 
-# Lasso output
+# Lasso docs temp files
 .cache
 build
+docs/index.js
+
+# Lasso tests temp files
 test/static/bundle-test.js
 test/static/lasso-client.js
+test/static/custom-event-polyfill.js
+test/static/makeup-focusables.js
 
 # Unit Test & Code Coverage Reports
 reports
