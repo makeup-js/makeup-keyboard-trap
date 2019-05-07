@@ -1,6 +1,6 @@
-$_mod.installed("makeup-keyboard-trap$0.1.1", "custom-event-polyfill", "1.0.7");
-$_mod.installed("makeup-keyboard-trap$0.1.1", "makeup-focusables", "0.0.4");
-$_mod.def("/makeup-keyboard-trap$0.1.1/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.installed("makeup-keyboard-trap$0.2.0", "custom-event-polyfill", "1.0.7");
+$_mod.installed("makeup-keyboard-trap$0.2.0", "makeup-focusables", "0.0.4");
+$_mod.def("/makeup-keyboard-trap$0.2.0/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.4/index'/*'makeup-focusables'*/); // when bundled up with isomorphic components on the server, this code is run,
 // so we must check if 'document' is defined.

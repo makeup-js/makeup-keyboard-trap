@@ -591,7 +591,7 @@ https://github.com/joyent/node/blob/master/lib/module.js
     }
 })();
 
-$_mod.installed("makeup-keyboard-trap$0.1.1", "custom-event-polyfill", "1.0.7");
+$_mod.installed("makeup-keyboard-trap$0.2.0", "custom-event-polyfill", "1.0.7");
 $_mod.main("/custom-event-polyfill$1.0.7", "polyfill");
 $_mod.def("/custom-event-polyfill$1.0.7/polyfill", function(require, exports, module, __filename, __dirname) { // Polyfill for creating CustomEvents on IE9/10/11
 
@@ -649,7 +649,7 @@ $_mod.def("/custom-event-polyfill$1.0.7/polyfill", function(require, exports, mo
 
 });
 $_mod.run("/custom-event-polyfill$1.0.7/polyfill");
-$_mod.installed("makeup-keyboard-trap$0.1.1", "makeup-focusables", "0.0.4");
+$_mod.installed("makeup-keyboard-trap$0.2.0", "makeup-focusables", "0.0.4");
 $_mod.main("/makeup-focusables$0.0.4", "");
 $_mod.def("/makeup-focusables$0.0.4/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
@@ -674,7 +674,7 @@ module.exports = function (el) {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.1.1/index", function(require, exports, module, __filename, __dirname) { 'use strict';
+$_mod.def("/makeup-keyboard-trap$0.2.0/index", function(require, exports, module, __filename, __dirname) { 'use strict';
 
 var focusables = require('/makeup-focusables$0.0.4/index'/*'makeup-focusables'*/); // when bundled up with isomorphic components on the server, this code is run,
 // so we must check if 'document' is defined.
@@ -791,10 +791,10 @@ module.exports = {
 };
 
 });
-$_mod.def("/makeup-keyboard-trap$0.1.1/docs/index", function(require, exports, module, __filename, __dirname) { "use strict";
+$_mod.def("/makeup-keyboard-trap$0.2.0/docs/index", function(require, exports, module, __filename, __dirname) { "use strict";
 
 /* eslint-disable no-console */
-var keyboardTrap = require('/makeup-keyboard-trap$0.1.1/index'/*'../index.js'*/);
+var keyboardTrap = require('/makeup-keyboard-trap$0.2.0/index'/*'../index.js'*/);
 
 var trap = document.getElementById('trap');
 var btn = document.querySelector('button');
@@ -823,4 +823,4 @@ trap.addEventListener('keyboardTrap', function (e) {
 });
 
 });
-$_mod.run("/makeup-keyboard-trap$0.1.1/docs/index");
+$_mod.run("/makeup-keyboard-trap$0.2.0/docs/index");
