@@ -1,4 +1,4 @@
-var keyboardTrap = require('../index.js');
+var keyboardTrap = require('../src/index.js');
 var testData = require('./data.js');
 
 testData.forEach(function(data) {

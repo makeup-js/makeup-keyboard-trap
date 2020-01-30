@@ -15,7 +15,7 @@ It will ignore <em>programmatically</em> focusable items with a tabindex of `-1`
 
 ## Experimental
 
-This module is still in an experimental state, until it reaches v1.0.0 you must consider all minor releases as breaking changes. Patch releases may introduce new features, but will be backwards compatible.
+This CommonJS module is still in an experimental state, until it reaches v1.0.0 you must consider all minor releases as breaking changes. Patch releases may introduce new features, but will be backwards compatible.
 
 ```js
 const keyboardTrap = require('makeup-keyboard-trap');
@@ -45,26 +45,7 @@ yarn add makeup-keyboard-trap
 ## Dependencies
 
 * [makeup-focusables](https://github.com/makeup-js/makeup-focusables)
-
-## Polyfills
-
-* [custom-event-polyfill](https://github.com/krambuhl/custom-event-polyfill)
-
-## Development
-
-* `npm start`
-* `npm test`
-* `npm run lint`
-* `npm run fix`
-* `npm run build`
-* `npm run clean`
-
-## Test Reports
-
-Each test run will generate the following reports:
-
-* `/reports/coverage` contains Istanbul code coverage report
-* `/reports/html` contains HTML test report
+* [custom-event](https://github.com/webmodules/custom-event) (for IE)
 
 ## CI Build
 

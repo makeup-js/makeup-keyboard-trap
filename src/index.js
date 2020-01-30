@@ -1,5 +1,9 @@
 'use strict';
 
+// requires CustomEvent polyfill for IE
+// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+const CustomEvent = require('custom-event');
+
 const focusables = require('makeup-focusables');
 
 // when bundled up with isomorphic components on the server, this code is run,

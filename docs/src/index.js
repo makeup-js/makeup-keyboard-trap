@@ -1,6 +1,7 @@
-/* eslint-disable no-console */
+// NodeList.forEach polyfill for IE
+require('nodelist-foreach-polyfill');
 
-const keyboardTrap = require('../index.js');
+const keyboardTrap = require('../../index.js');
 
 const trap = document.getElementById('trap');
 const btn = document.querySelector('button');

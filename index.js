@@ -1,4 +1,7 @@
-'use strict';
+'use strict'; // requires CustomEvent polyfill for IE
+// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+
+var CustomEvent = require('custom-event');
 
 var focusables = require('makeup-focusables'); // when bundled up with isomorphic components on the server, this code is run,
 // so we must check if 'document' is defined.
