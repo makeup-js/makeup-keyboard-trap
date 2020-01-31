@@ -1,6 +1,6 @@
 {
   "dependencies":[
-    "require-run: custom-event-polyfill",
+    "require-run: custom-event",
     "require: ./index.js"
   ]
 }
